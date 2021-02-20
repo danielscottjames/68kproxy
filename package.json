@@ -1,0 +1,28 @@
+{
+  "name": "68kproxy",
+  "version": "1.0.0",
+  "description": "This is a Proxy that allows very, very old browsers to surf the modern web",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielscottjames/68kproxy.git"
+  },
+  "author": "Daniel James",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danielscottjames/68kproxy/issues"
+  },
+  "homepage": "https://github.com/danielscottjames/68kproxy#readme",
+  "dependencies": {
+    "@mozilla/readability": "^0.4.1",
+    "beautify": "0.0.8",
+    "fold-to-ascii": "^5.0.0",
+    "ip": "^1.1.5",
+    "jsdom": "^16.4.0",
+    "node-fetch": "^2.6.1",
+    "tmp-promise": "^3.0.2"
+  }
+}
