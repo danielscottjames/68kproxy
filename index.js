@@ -39,6 +39,14 @@ const server = http.createServer(async function (request, response) {
         body: undefined,
     }
 
+    // Can't change dead homepage so redirect here:
+    if (request.url.includes('galaxy.einet.net/galaxy.html')) {
+        response.writeHead(302, {
+            'Location': 'http://en.m.wikipedia.org/wiki/MacWeb'
+        });
+        return response.end();
+    }
+
     try {
         const parsedURL = new URL(request.url);
         if (parsedURL.hostname == '68kproxy.com') {
