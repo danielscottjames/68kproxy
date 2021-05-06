@@ -79,7 +79,7 @@ function tryConvertToReaderView(dom, url) {
 function stripContent(dom) {
     const document = dom.window.document;
 
-    ['script', 'link', 'style', 'noscript'].forEach(tag => {
+    ['script', 'link', 'style', 'noscript', 'iframe'].forEach(tag => {
         [...document.getElementsByTagName(tag)].forEach(node => {
             node.remove();
         });
@@ -89,6 +89,11 @@ function stripContent(dom) {
         [...document.getElementsByTagName(tag)].forEach(node => {
             node.replaceWith(...node.childNodes);
         });
+    });
+
+    [...document.getElementsByTagName('*')].forEach(node => {
+        node.attributes.getNamedItem('onclick') && node.attributes.removeNamedItem('onclick');
+        node.attributes.getNamedItem('style') && node.attributes.removeNamedItem('style');
     });
 }
 
