@@ -7,6 +7,7 @@ const FoldToAscii = require("fold-to-ascii");
 const beautify = require('beautify');
 const EXT_TO_MIME = require('./mime');
 const RemoteConfig = require('./remoteconfig');
+const { httpsToHttp } = require('./url');
 
 /** @param fetched {fetch.Response} */
 module.exports = async (fetched) => {
@@ -154,10 +155,10 @@ function stripHttpsLinks(dom) {
     const document = dom.window.document;
 
     [...document.getElementsByTagName('a')].forEach(node => {
-        node.href && (node.href = node.href.replace(/^https:/, 'http:'));
+        node.href && (node.href = httpsToHttp(node.href));
     });
 
     [...document.getElementsByTagName('img')].forEach(node => {
-        node.src && (node.src = node.src.replace(/^https:/, 'http:'));
+        node.src && (node.src = httpsToHttp(node.src));
     });
 }

@@ -11,6 +11,7 @@ const gif = require('./gif');
 const RemoteConfig = require('./remoteconfig');
 const fs = require('fs');
 const util = require('util');
+const { httpsToHttp, httpToHttps } = require('./url');
 
 const PORT = 8080;
 const UA = `Mozilla/5.0 (Mobile; en-us) NCSA_Mosaic/1.0.3 (KHTML, like Gecko) Mobile`;
@@ -62,7 +63,7 @@ const server = http.createServer(async function (request, response) {
                 RemoteConfig[command] && RemoteConfig[command](decodedRedirect);
 
                 response.writeHead(302, {
-                    'Location': decodedRedirect.replace('https://', 'http://')
+                    'Location': httpsToHttp(decodedRedirect)
                 });
                 return response.end();
             }
@@ -78,7 +79,7 @@ const server = http.createServer(async function (request, response) {
             throw new Error(`Unsupported Method: ${request.method}`);
         }
 
-        const url = request.url.replace('http://', 'https://');
+        const url = httpToHttps(request.url);
 
         const headers = new Headers({
             'User-Agent': UA,
@@ -109,7 +110,7 @@ const server = http.createServer(async function (request, response) {
                 throw new Error(`Unsupported Content-Type: ${mime};`);
             }
         } else if (fetched.status == 301 || fetched.status == 302) {
-            const location = fetched.headers.get("Location").replace('https://', 'http://');
+            const location = httpsToHttp(fetched.headers.get("Location"));
 
             result.status = fetched.status;
             result.headers['Location'] = location;
