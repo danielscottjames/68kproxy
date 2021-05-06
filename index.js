@@ -9,6 +9,8 @@ const EXT_TO_MIME = require('./mime');
 const html = require('./html');
 const gif = require('./gif');
 const RemoteConfig = require('./remoteconfig');
+const fs = require('fs');
+const util = require('util');
 
 const PORT = 8080;
 const UA = `Mozilla/5.0 (Mobile; en-us) NCSA_Mosaic/1.0.3 (KHTML, like Gecko) Mobile`;
@@ -41,9 +43,9 @@ const server = http.createServer(async function (request, response) {
 
     // Can't change dead homepage so redirect here:
     if (request.url.includes('galaxy.einet.net/galaxy.html')) {
-        response.writeHead(302, {
-            'Location': 'http://en.m.wikipedia.org/wiki/MacWeb'
-        });
+        const homePage = await util.promisify(fs.readFile)('./index.html');
+        response.writeHead(200);
+        response.write(homePage);
         return response.end();
     }
 
